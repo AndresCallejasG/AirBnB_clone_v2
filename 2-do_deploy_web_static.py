@@ -33,14 +33,14 @@ def do_deploy(archive_path):
 
         file = archive_path.split("/")[-1]
         path = "/data/web_static/releases/{}".format(file.split(".")[0])
-        run("mkdir {}".format(path))
-        run("tar -zxvf /tmp/{} -C {}/".format(file, path))
+        run("mkdir -p {}".format(path))
+        run("tar -xzf /tmp/{} -C {}/".format(file, path))
 
         run("rm /tmp/{}".format(file))
         run("mv {}/web_static/* {}/".format(path, path))
         run("rm -rf {}/web_static".format(path))
         run("rm -rf /data/web_static/current")
-        run("ln -sf {} /data/web_static/current".format(path))
+        run("ln -s {} /data/web_static/current".format(path))
         print("New version deployed!")
         return True
     except:
